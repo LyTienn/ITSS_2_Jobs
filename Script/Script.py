@@ -1,9 +1,12 @@
+import os
+from dotenv import load_dotenv
 import random
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 
 # 1. Kết nối MongoDB
-client = MongoClient("mongodb+srv://lycongtien1312004_db_user:iiCzMkX4b1SGdEpA@cluster0.h6occ3r.mongodb.net/hust_internship_finder?appName=Cluster0")
+load_dotenv()
+client = MongoClient(os.getenv("MONGODB_URI"))
 db = client['hust_internship_finder']
 skills_collection = db['skills']
 majors_collection = db['majors']
