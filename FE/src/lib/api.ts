@@ -1,6 +1,6 @@
 import type { Job, JobsResponse } from "../types/job";
 
-const API_BASE_URL = "https://itss-2-jobs.onrender.com";
+const API_BASE_URL = "https://itss-2-jobs.onrender.com/api";
 
 export const jobApi = {
   /**
