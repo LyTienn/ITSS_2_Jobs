@@ -1,9 +1,11 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { useSavedJobs } from "../../hooks/useSavedJobs";
 
 export function SiteHeader() {
   const location = useLocation();
   const shouldKeepJobsSearch = location.pathname === "/jobs" || location.pathname === "/jobs/filter";
   const jobsSearch = shouldKeepJobsSearch ? location.search : "";
+  const { savedJobIds } = useSavedJobs();
 
   return (
     <header className="sticky top-0 z-50 h-20 shrink-0 border-b border-line/80 bg-white">
@@ -36,6 +38,23 @@ export function SiteHeader() {
             }
           >
             Bộ lọc
+          </NavLink>
+          <NavLink
+            to="/saved-jobs"
+            className={({ isActive }) =>
+              `relative rounded-full px-3 py-2 transition sm:px-4 ${
+                isActive
+                  ? "bg-primary text-white shadow-sm"
+                  : "bg-white text-slate-500 hover:text-slate-900"
+              }`
+            }
+          >
+            Đã lưu
+            {savedJobIds.length > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow">
+                {savedJobIds.length > 99 ? "99+" : savedJobIds.length}
+              </span>
+            )}
           </NavLink>
         </nav>
       </div>

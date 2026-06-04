@@ -3,6 +3,7 @@ import { App } from "./App";
 import { JobDetailPage } from "../pages/job-detail-page";
 import { JobFilterPage } from "../pages/job-filter-page";
 import { JobsPage } from "../pages/jobs-page";
+import { SavedJobsPage } from "../pages/savedJobs-page";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
       { path: "jobs", element: <JobsPage /> },
       { path: "jobs/filter", element: <JobFilterPage /> },
       { path: "jobs/:id", element: <JobDetailPage /> },
+      { path: "saved-jobs", element: <SavedJobsPage /> },
     ],
   },
 ]);
