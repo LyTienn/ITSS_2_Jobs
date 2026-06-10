@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { SiteFooter } from "../components/layout/site-footer";
 import { SiteHeader } from "../components/layout/site-header";
 
 export function App() {
@@ -8,6 +9,7 @@ export function App() {
       <main className="flex min-h-0 w-full flex-1 flex-col">
         <Outlet />
       </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -12,6 +12,16 @@ function toggleValue<T extends string>(values: T[], value: T) {
     : [...values, value];
 }
 
+function toggleUniqueValue(values: string[], value: string) {
+  const nextValue = value.trim();
+
+  if (!nextValue) return values;
+
+  return values.includes(nextValue)
+    ? values.filter((item) => item !== nextValue)
+    : [...values, nextValue];
+}
+
 function getSearchString(searchParams: URLSearchParams) {
   const search = searchParams.toString();
 
@@ -101,7 +111,12 @@ export function JobFilterPage() {
             filters={draftFilters}
             skillSearch={skillSearch}
             onSkillSearchChange={setSkillSearch}
-            onToggleSkill={(value) => patchFilters({ skills: toggleValue(draftFilters.skills, value) })}
+            onToggleSkill={(value) =>
+              setDraftFilters((current) => ({
+                ...current,
+                skills: toggleUniqueValue(current.skills, value),
+              }))
+            }
             onToggleJobType={(value) => patchFilters({ jobTypes: toggleValue(draftFilters.jobTypes, value) })}
             onToggleWorkType={(value) => patchFilters({ workTypes: toggleValue(draftFilters.workTypes, value) })}
             onLocationChange={(location) => patchFilters({ location })}

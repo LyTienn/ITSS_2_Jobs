@@ -49,10 +49,12 @@ export function JobFilterPanel({
   availableSkills,
 }: JobFilterPanelProps) {
   const [isSkillInputFocused, setIsSkillInputFocused] = useState(false);
-
+  const normalizedSkillSearch = skillSearch.trim().toLowerCase();
+  const selectedSkills = Array.from(new Set(filters.skills));
   const filteredSkills = (availableSkills ?? []).filter((skill) =>
-    skill.name.toLowerCase().includes(skillSearch.toLowerCase())
+    skill.name.toLowerCase().includes(normalizedSkillSearch)
   );
+  const shouldShowSkillOptions = (isSkillInputFocused || skillSearch.length > 0) && filteredSkills.length > 0;
 
   return (
     <Panel className="p-5">
@@ -60,7 +62,32 @@ export function JobFilterPanel({
         <SectionTitle title="Bộ lọc công việc" subtitle="Tinh chỉnh danh sách theo nhu cầu của bạn." />
 
         <section className="space-y-3">
-          <h3 className="text-sm font-semibold text-slate-900">Kỹ năng</h3>
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-sm font-semibold text-slate-900">Kỹ năng</h3>
+            <span className="text-xs font-medium text-slate-500">{selectedSkills.length} đã chọn</span>
+          </div>
+
+          <div className="rounded-2xl border border-line bg-slate-50 p-3">
+            {selectedSkills.length > 0 ? (
+              <div className="flex max-h-32 flex-wrap gap-2 overflow-y-auto">
+                {selectedSkills.map((skill) => (
+                  <button
+                    key={skill}
+                    type="button"
+                    onClick={() => onToggleSkill(skill)}
+                    className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+                    aria-label={`Bỏ chọn ${skill}`}
+                  >
+                    <span>{skill}</span>
+                    <span aria-hidden="true" className="text-base leading-none">x</span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="px-1 py-2 text-sm text-slate-500">Chưa chọn kỹ năng nào</p>
+            )}
+          </div>
+
           <div className="relative">
             <input
               value={skillSearch}
@@ -70,39 +97,33 @@ export function JobFilterPanel({
               placeholder="Tìm kiếm kỹ năng..."
               className="h-11 w-full rounded-xl border border-line bg-slate-50 px-4 text-sm outline-none transition focus:border-primary focus:bg-white"
             />
-            
-            {/* Dropdown list */}
-            {(isSkillInputFocused || skillSearch) && filteredSkills.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 max-h-48 overflow-y-auto rounded-xl border border-line bg-white shadow-lg z-10">
-                {filteredSkills.map((skill) => (
-                  <button
-                    key={skill._id}
-                    type="button"
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      onToggleSkill(skill.name);
-                      onSkillSearchChange("");
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-blue-50 transition border-b border-slate-100 last:border-b-0"
-                  >
-                    {skill.name}
-                  </button>
-                ))}
+
+            {shouldShowSkillOptions && (
+              <div className="absolute left-0 right-0 top-full z-10 mt-2 max-h-56 overflow-y-auto rounded-xl border border-line bg-white shadow-lg">
+                {filteredSkills.map((skill) => {
+                  const isSelected = selectedSkills.includes(skill.name);
+
+                  return (
+                    <button
+                      key={skill._id}
+                      type="button"
+                      onMouseDown={(event) => {
+                        event.preventDefault();
+                        onToggleSkill(skill.name);
+                      }}
+                      className={`flex w-full items-center justify-between gap-3 border-b border-slate-100 px-4 py-2.5 text-left text-sm transition last:border-b-0 ${
+                        isSelected
+                          ? "bg-blue-50 font-semibold text-primary"
+                          : "text-slate-700 hover:bg-slate-50"
+                      }`}
+                    >
+                      <span>{skill.name}</span>
+                      {isSelected && <span className="text-xs font-bold text-primary">Đã chọn</span>}
+                    </button>
+                  );
+                })}
               </div>
             )}
-          </div>
-
-          <div className="flex max-h-52 flex-wrap gap-2 overflow-y-auto pt-1">
-            {filters.skills.map((skill) => (
-              <button
-                key={skill}
-                type="button"
-                onClick={() => onToggleSkill(skill)}
-                className="rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-700"
-              >
-                {skill} ✕
-              </button>
-            ))}
           </div>
         </section>
 
