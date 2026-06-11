@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { JobFilterPanel } from "../components/jobs/job-filter-panel";
-import { SectionTitle } from "../components/jobs/ui";
 import { jobApi } from "../lib/api";
 import { buildSearchParams, defaultJobFilters, parseFilters, parsePage } from "../lib/job-filters";
 import type { JobFilters } from "../types/job";
@@ -78,7 +77,7 @@ export function JobFilterPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-2">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm font-medium">
@@ -94,10 +93,10 @@ export function JobFilterPage() {
             </span>
             <span className="text-slate-900">Bộ lọc nâng cao</span>
           </nav>
-          <SectionTitle
+          {/* <SectionTitle
             title="Bộ lọc nâng cao"
             subtitle="Tinh chỉnh tìm kiếm theo nhu cầu của bạn."
-          />
+          /> */}
         </div>
       </div>
 

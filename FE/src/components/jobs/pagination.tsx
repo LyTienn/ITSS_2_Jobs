@@ -63,7 +63,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           disabled={!canPaginate || safeCurrentPage === 1}
           className="h-10 w-full rounded-xl border border-line bg-white px-3 text-sm font-medium text-slate-600 transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Previous
+          Trước
         </button>
         <div className="flex min-w-0 items-center justify-center gap-1 overflow-x-auto px-1">
           {pageItems.map((item) =>
@@ -97,7 +97,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           disabled={!canPaginate || safeCurrentPage === safeTotalPages}
           className="h-10 w-full rounded-xl border border-line bg-white px-3 text-sm font-medium text-slate-600 transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Next
+          Sau
         </button>
       </div>
     </nav>

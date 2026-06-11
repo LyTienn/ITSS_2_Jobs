@@ -12,10 +12,19 @@ function getCompanyInitials(companyName: string): string {
     .slice(0, 2);
 }
 
+function getExternalUrl(url?: string) {
+  const trimmedUrl = url?.trim();
+
+  if (!trimmedUrl) return null;
+
+  return /^https?:\/\//i.test(trimmedUrl) ? trimmedUrl : `https://${trimmedUrl}`;
+}
+
 export function JobCard({ job }: { job: Job }) {
   const location = useLocation();
   const fromPath = `${location.pathname}${location.search}`;
   const initials = getCompanyInitials(job.companyName);
+  const sourceUrl = getExternalUrl(job.sourceLink);
   const skillNames = Array.isArray(job.skills)
     ? job.skills.map((s) => (typeof s === "string" ? s : s.name)).slice(0, 3)
     : [];
@@ -79,6 +88,16 @@ export function JobCard({ job }: { job: Job }) {
           >
             Xem chi tiết
           </Link>
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex flex-1 items-center justify-center rounded-xl border border-line bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-primary hover:text-primary"
+            >
+              Mở link ứng tuyển
+            </a>
+          )}
           <button
             type="button"
             onClick={() => toggle(job._id)}
